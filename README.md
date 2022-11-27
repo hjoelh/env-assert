@@ -11,7 +11,23 @@ This will create an example config file
 > env-assert.config.ts
 
 Here you can setup your required and optional environment variables  
-![CleanShot 2022-11-27 at 8 17 36](https://user-images.githubusercontent.com/68335961/204157796-c323c4a3-28be-46fc-bdb4-9923116d0eb2.png)
+```typescript
+import type { CreateEnvVarsType } from "env-assert";
+
+const required = ["FOO"] as const;
+const optional = ["BAR"] as const;
+
+const config = {
+  required,
+  optional,
+};
+
+export default config;
+
+export type EnvVars = CreateEnvVarsType<typeof config>;
+```
+
+
 # How to use
 **Run env-assert before any script**, for example:
 
