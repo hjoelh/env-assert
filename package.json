@@ -1,0 +1,33 @@
+{
+  "name": "env-assert",
+  "version": "1.0.1",
+  "description": "verify that environment variables exist before doing something",
+  "sideEffects": false,
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "keywords": [
+    "env",
+    "verify",
+    "assert",
+    "typesafe",
+    "environment",
+    "variables",
+    "envsafe"
+  ],
+  "author": "https://github.com/hjoelh",
+  "license": "MIT",
+  "files": [
+    "build"
+  ],
+  "bin": "build/index.js",
+  "scripts": {
+    "dev": "yarn tsc  --watch"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "typescript": "^4.8.4"
+  }
+}
