@@ -38,7 +38,7 @@ export type EnvVars = CreateEnvVarsType<typeof config>;
 
 Pass the type of your config to **CreateEnvVarsType** to receive a type that you can use to extend ProcessEnv, so you know what variables are available. 👌
 ![CleanShot 2022-11-27 at 8 23 12](https://user-images.githubusercontent.com/68335961/204157903-273ff75e-b9a1-4cfc-bcab-16a5be66b2b3.gif)  
-global.d.ts
+> global.d.ts
 ```typescript
 import { EnvVars } from "./env-assert.config";
 
