@@ -21,7 +21,8 @@
   ],
   "bin": "build/index.js",
   "scripts": {
-    "dev": "yarn tsc  --watch"
+    "dev": "yarn tsc  --watch",
+    "build": "yarn tsc"
   },
   "dependencies": {
     "dotenv": "16.0.3"
