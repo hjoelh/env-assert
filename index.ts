@@ -27,7 +27,7 @@ const checkForConfigFile = (): boolean => {
 const attemptTranspileConfigFile = (): boolean => {
   try {
     execSync(
-      `npx tsc ${configLocation} --skipLibCheck --outDir ${path.resolve(
+      `npx tsc ${configLocation} --skipLibCheck --incremental --outDir ${path.resolve(
         __dirname
       )}`
     );
