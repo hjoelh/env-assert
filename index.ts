@@ -2,9 +2,9 @@
 
 import * as dotenv from "dotenv";
 dotenv.config();
+import { transform } from "sucrase";
 
 import fs from "fs";
-import { execSync } from "child_process";
 import path from "path";
 
 const configLocation = "./env-assert.config.ts";
@@ -26,32 +26,40 @@ const checkForConfigFile = (): boolean => {
 
 const attemptTranspileConfigFile = (): boolean => {
   try {
-    execSync(
-      `npx tsc ${configLocation} --skipLibCheck --outDir ${path.resolve(
-        __dirname
-      )}`
+    const compiledCode = transform(fs.readFileSync(configLocation, "utf8"), {
+      transforms: ["typescript", "imports"],
+    }).code;
+
+    fs.writeFileSync(
+      `${path.resolve(__dirname)}/env-assert.config.js`,
+      compiledCode
     );
+
     return true;
   } catch (e) {
-    console.log(e);
+    // @ts-ignore
+    console.log(e?.stdout?.toString());
+    // @ts-ignore
+    console.log(e?.stderr?.toString());
+
     return false;
   }
 };
 
 const validateConfigFile = (file: any) => {
-  if (!file.default?.default) {
+  if (!file.default) {
     console.log("Config file must export a default export");
     process.exit(1);
   }
 
-  if (!file.default?.default?.required) {
+  if (!file.default?.required) {
     console.log(
       "The Default export in the config file must have a required property"
     );
     process.exit(1);
   }
 
-  if (Array.isArray(file.default?.default?.required) === false) {
+  if (Array.isArray(file.default?.required) === false) {
     console.log(
       "The required property in the config file default export must be an array of strings"
     );
@@ -100,10 +108,8 @@ const createExampleConfigFile = () => {
   const configFile = await getConfigFileAsJS();
   validateConfigFile(configFile);
 
-  const requiredEnvVars = configFile.default.default.required as string[];
-  const optionalEnvVars = configFile.default.default?.optional as
-    | string[]
-    | undefined;
+  const requiredEnvVars = configFile.default?.required as string[];
+  const optionalEnvVars = configFile.default?.optional as string[];
 
   const errorsArray: string[] = [];
   const verifiedArray: string[] = [];
